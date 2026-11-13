@@ -28,7 +28,7 @@ class FeedbackSummary(BaseModel):
     )
 
 
-# Note: Switch to "gemini-3.8-flash" if your GCP project returns a 404 on 2.5-flash
+
 model = "gemini-3.8-flash"
 
 root_agent = Agent(
