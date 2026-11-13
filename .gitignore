@@ -1,0 +1,42 @@
+# ==========================================
+# GCP & Credentials (CRITICAL - NEVER COMMIT)
+# ==========================================
+.env
+.env.*
+!.env.example
+*credentials*.json
+*service-account*.json
+application_default_credentials.json
+*.pem
+*.key
+
+# ==========================================
+# Google ADK & Local Agent State
+# ==========================================
+.adk/
+adk_sessions/
+*.db
+*.sqlite
+*.sqlite3
+
+# ==========================================
+# Python Virtual Environments & Cache
+# ==========================================
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ==========================================
+# IDEs & OS Files
+# ==========================================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.dbg
