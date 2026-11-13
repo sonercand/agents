@@ -19,13 +19,13 @@ model = "gemini-3.8-flash"
 tools = [google_search]
 
 # Create an agent that uses the search tool
-search_agent = Agent(
+'''search_agent = Agent(
     name="search_agent",
     description="An agent that searches Google for stock market information.",
     instruction=instruction,
     model=model,
     tools=tools
-)
+)'''
 
 # Define the Pydantic schema for structured stock search results
 class StockSearchResult(BaseModel):
