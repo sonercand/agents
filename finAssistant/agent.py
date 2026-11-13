@@ -1,7 +1,7 @@
 import os
 from google.adk.agents import Agent
-from tools import calculate_percentage_change, calculate_profit_or_loss
-from search_agent import search_agent_tool
+from .tools import calculate_percentage_change, calculate_profit_or_loss
+from .search_agent import search_agent_tool
 
 # Load instructions from agent-prompt.txt
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -19,7 +19,7 @@ tools = [
 ]
 
 # Create the root financial assistant agent
-financial_assistant_agent = Agent(
+root_agent = Agent(
     name="financial_assistant_agent",
     description="A root financial assistant that coordinates stock searching and math calculations.",
     instruction=instruction,
