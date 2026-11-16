@@ -8,8 +8,8 @@ export REGION="us-central1"
 export INSTANCE_NAME="warehouse-mysql-instance"
 export DB_NAME="warehouse"
 export DB_USER="toolbox"
-export DB_PASS="ToolboxPass123!"
-export ROOT_PASS="RootPass123!"
+export DB_PASS="<>"
+export ROOT_PASS="<>"
 
 # 1. Set active GCP project & enable Cloud SQL Admin API
 gcloud config set project $PROJECT_ID
@@ -42,3 +42,18 @@ PUBLIC_IP=$(gcloud sql instances describe $INSTANCE_NAME --format="value(ipAddre
 echo "=========================================="
 echo "Setup Complete! Your Cloud SQL Public IP is: $PUBLIC_IP"
 echo "=========================================="
+
+
+## How to Run
+
+To run the application, open three separate terminal windows and execute the following commands in order:
+
+### 1. Start Cloud SQL Auth Proxy
+Establish a secure local tunnel to your Cloud SQL instance:
+```bash
+./cloud-sql-proxy YOUR_PROJECT_ID:YOUR_REGION:YOUR_INSTANCE_NAME --port 3306
+
+### 2. mcp toolbox
+./toolbox --config dbAssistant/tools.yaml --port 5001
+### 3. 
+TOOLBOX_URL=[http://127.0.0.1:5001](http://127.0.0.1:5001) GOOGLE_GENAI_USE_VERTEXAI=true GOOGLE_CLOUD_PROJECT=YOUR_PROJECT_ID GOOGLE_CLOUD_LOCATION=global adk web 
