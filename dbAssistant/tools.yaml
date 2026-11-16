@@ -1,0 +1,64 @@
+sources:
+  my-mysql-source:
+    kind: mysql
+    host: ${MYSQL_HOST}
+    port: 3306
+    database: warehouse
+    user: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+
+tools:
+  add_product:
+    kind: mysql-sql
+    source: my-mysql-source
+    description: Adds a new product to the warehouse inventory.
+    parameters:
+      - name: name
+        type: string
+        description: The name of the product.
+      - name: price
+        type: float
+        description: The price of the product.
+      - name: stock_quantity
+        type: integer
+        description: Initial stock quantity in the warehouse.
+    statement: INSERT INTO products (name, price, stock_quantity) VALUES (?, ?, ?);
+
+  get_product:
+    kind: mysql-sql
+    source: my-mysql-source
+    description: Retrieves product details (including product_id and current stock) by product name.
+    parameters:
+      - name: name
+        type: string
+        description: The name of the product to look up.
+    statement: SELECT product_id, name, price, stock_quantity FROM products WHERE name = ?;
+
+  update_product_stock:
+    kind: mysql-sql
+    source: my-mysql-source
+    description: Updates the stock quantity of an existing product using its product_id.
+    parameters:
+      - name: stock_quantity
+        type: integer
+        description: The new total stock quantity.
+      - name: product_id
+        type: integer
+        description: The unique ID of the product to update.
+    statement: UPDATE products SET stock_quantity = ? WHERE product_id = ?;
+
+  log_audit:
+    kind: mysql-sql
+    source: my-mysql-source
+    description: Logs an audit trail entry whenever inventory is added or modified.
+    parameters:
+      - name: product_id
+        type: integer
+        description: The ID of the product affected.
+      - name: action
+        type: string
+        description: The action performed (e.g., 'add_product' or 'update_product_stock').
+      - name: details
+        type: string
+        description: A clear description of the change, including old and new values or reasons.
+    statement: INSERT INTO audit_log (product_id, action, details) VALUES (?, ?, ?);
