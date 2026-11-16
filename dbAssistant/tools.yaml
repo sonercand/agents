@@ -1,11 +1,11 @@
 sources:
   my-mysql-source:
     kind: mysql
-    host: ${MYSQL_HOST}
+    host: 127.0.0.1
     port: 3306
     database: warehouse
-    user: ${MYSQL_USER}
-    password: ${MYSQL_PASSWORD}
+    user: <user>
+    password: <password>
 
 tools:
   add_product:
@@ -18,20 +18,20 @@ tools:
         description: The name of the product.
       - name: price
         type: float
-        description: The price of the product.
+        description: The price of the product as a decimal number.
       - name: stock_quantity
         type: integer
-        description: Initial stock quantity in the warehouse.
+        description: Initial stock quantity in the warehouse as a whole number.
     statement: INSERT INTO products (name, price, stock_quantity) VALUES (?, ?, ?);
 
   get_product:
     kind: mysql-sql
     source: my-mysql-source
-    description: Retrieves product details (including product_id and current stock) by product name.
+    description: Retrieves product details including product_id and current stock by product name.
     parameters:
       - name: name
         type: string
-        description: The name of the product to look up.
+        description: The exact name of the product to look up.
     statement: SELECT product_id, name, price, stock_quantity FROM products WHERE name = ?;
 
   update_product_stock:
@@ -41,10 +41,10 @@ tools:
     parameters:
       - name: stock_quantity
         type: integer
-        description: The new total stock quantity.
+        description: The new total stock quantity as a whole number.
       - name: product_id
         type: integer
-        description: The unique ID of the product to update.
+        description: The unique integer ID of the product to update.
     statement: UPDATE products SET stock_quantity = ? WHERE product_id = ?;
 
   log_audit:
@@ -54,11 +54,11 @@ tools:
     parameters:
       - name: product_id
         type: integer
-        description: The ID of the product affected.
+        description: The integer ID of the product affected.
       - name: action
         type: string
-        description: The action performed (e.g., 'add_product' or 'update_product_stock').
+        description: The action performed, such as add_product or update_product_stock.
       - name: details
         type: string
-        description: A clear description of the change, including old and new values or reasons.
+        description: A plain-text description of the change without quotes or JSON formatting.
     statement: INSERT INTO audit_log (product_id, action, details) VALUES (?, ?, ?);

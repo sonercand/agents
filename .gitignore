@@ -9,7 +9,8 @@
 application_default_credentials.json
 *.pem
 *.key
-
+cloud-sql-proxy
+toolbox
 # ==========================================
 # Google ADK & Local Agent State
 # ==========================================
